@@ -6,7 +6,6 @@ export enum OrderType {
 
 export enum OrderStatus {
   Pending = 'pending',
-  Processing = 'processing',
   Complete = 'complete',
 }
 

@@ -25,8 +25,8 @@ class OrderManager {
     }
   }
 
-  getOrders(statuses: OrderStatus[]) {
-    return this.orders.filter(order => statuses.indexOf(order.status) > -1);
+  getOrders(status: OrderStatus) {
+    return this.orders.filter(order => order.status === status);
   }
 }
 

@@ -23,7 +23,7 @@ const useOrderProcessor = () => {
   }
 
   const processOrder = (processTime: number = 10000) => {
-    const pendingOrders = orderManager.getOrders([OrderStatus.Pending]);
+    const pendingOrders = orderManager.getOrders(OrderStatus.Pending);
     if (pendingOrders.length === 0) {
       return;
     }
@@ -37,7 +37,6 @@ const useOrderProcessor = () => {
       const order = pendingOrders[0];
       const bot = availableBots[0];
       bot.processingOrder = order;
-      order.status = OrderStatus.Processing;
       update();
 
       bot.processId = setTimeout(() => {
@@ -59,8 +58,8 @@ const useOrderProcessor = () => {
     }
   };
 
-  const getOrders = (statuses: OrderStatus[]) => {
-    return orderManager.getOrders(statuses);
+  const getOrders = (status: OrderStatus) => {
+    return orderManager.getOrders(status);
   }
 
   const createBot = () => {

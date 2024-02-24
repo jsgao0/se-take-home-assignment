@@ -20,9 +20,8 @@ describe('useOrderProcessor', () => {
       });
     });
     
-    expect(result.current.getOrders([OrderStatus.Pending]).length).toBe(1);
-    expect(result.current.getOrders([OrderStatus.Processing]).length).toBe(0);
-    expect(result.current.getOrders([OrderStatus.Complete]).length).toBe(0);
+    expect(result.current.getOrders(OrderStatus.Pending).length).toBe(1);
+    expect(result.current.getOrders(OrderStatus.Complete).length).toBe(0);
   });
 
   it('createBot without pending orders', () => {
@@ -32,9 +31,8 @@ describe('useOrderProcessor', () => {
       result.current.createBot();
     });
     
-    expect(result.current.getOrders([OrderStatus.Pending]).length).toBe(0);
-    expect(result.current.getOrders([OrderStatus.Processing]).length).toBe(0);
-    expect(result.current.getOrders([OrderStatus.Complete]).length).toBe(0);
+    expect(result.current.getOrders(OrderStatus.Pending).length).toBe(0);
+    expect(result.current.getOrders(OrderStatus.Complete).length).toBe(0);
   });
   
   it('createOrder with idle bots', () => {
@@ -47,10 +45,9 @@ describe('useOrderProcessor', () => {
         status: OrderStatus.Pending,
       });
     });
-    
-    expect(result.current.getOrders([OrderStatus.Pending]).length).toBe(0);
-    expect(result.current.getOrders([OrderStatus.Processing]).length).toBe(1);
-    expect(result.current.getOrders([OrderStatus.Complete]).length).toBe(0);
+
+    expect(result.current.getOrders(OrderStatus.Pending).length).toBe(1);
+    expect(result.current.getOrders(OrderStatus.Complete).length).toBe(0);
   });
 
   it('createBot with pending orders', () => {
@@ -64,41 +61,32 @@ describe('useOrderProcessor', () => {
       result.current.createBot();
     });
     
-    expect(result.current.getOrders([OrderStatus.Pending]).length).toBe(0);
-    expect(result.current.getOrders([OrderStatus.Processing]).length).toBe(1);
-    expect(result.current.getOrders([OrderStatus.Complete]).length).toBe(0);
+    expect(result.current.getOrders(OrderStatus.Pending).length).toBe(1);
+    expect(result.current.getOrders(OrderStatus.Complete).length).toBe(0);
+
   });
 
   it('removeBot', () => {
     const { result } = renderHook(() => useOrderProcessor());
 
-    // create order but no bot
+    // create bot with created order then start processing
     act(() => {
       result.current.createOrder({
         type: OrderType.Normal,
         status: OrderStatus.Pending,
       });
-    });
-    expect(result.current.getOrders([OrderStatus.Pending]).length).toBe(1);
-    expect(result.current.getOrders([OrderStatus.Processing]).length).toBe(0);
-    expect(result.current.getOrders([OrderStatus.Complete]).length).toBe(0);
-
-    // create bot with created order then start processing
-    act(() => {
       result.current.createBot();
     });
-    expect(result.current.getOrders([OrderStatus.Pending]).length).toBe(0);
-    expect(result.current.getOrders([OrderStatus.Processing]).length).toBe(1);
-    expect(result.current.getOrders([OrderStatus.Complete]).length).toBe(0);
+    expect(result.current.getOrders(OrderStatus.Pending).length).toBe(1);
+    expect(result.current.getOrders(OrderStatus.Complete).length).toBe(0);
 
     // remove the bot with processing order, then the order should be pending again
     act(() => {
       jest.advanceTimersByTime(9000);
       result.current.removeBot();
     });
-    expect(result.current.getOrders([OrderStatus.Pending]).length).toBe(1);
-    expect(result.current.getOrders([OrderStatus.Processing]).length).toBe(0);
-    expect(result.current.getOrders([OrderStatus.Complete]).length).toBe(0);
+    expect(result.current.getOrders(OrderStatus.Pending).length).toBe(1);
+    expect(result.current.getOrders(OrderStatus.Complete).length).toBe(0);
   });
 
 });

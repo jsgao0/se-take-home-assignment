@@ -49,44 +49,19 @@ describe('OrderManager', () => {
       status: OrderStatus.Pending,
     });
     orderManager.addOrder({
-      type: OrderType.Vip,
-      status: OrderStatus.Processing,
-    });
-    orderManager.addOrder({
       type: OrderType.Normal,
       status: OrderStatus.Complete,
     });
-    expect(orderManager.getOrders([OrderStatus.Pending])).toEqual([
+    expect(orderManager.getOrders(OrderStatus.Pending)).toEqual([
       {
         id: 1,
         type: OrderType.Normal,
         status: OrderStatus.Pending,
       }
     ]);
-    expect(orderManager.getOrders([OrderStatus.Processing])).toEqual([
+    expect(orderManager.getOrders(OrderStatus.Complete)).toEqual([
       {
         id: 2,
-        type: OrderType.Vip,
-        status: OrderStatus.Processing,
-      }
-    ]);
-    expect(orderManager.getOrders([OrderStatus.Complete])).toEqual([
-      {
-        id: 3,
-        type: OrderType.Normal,
-        status: OrderStatus.Complete,
-      }
-    ]);
-
-    // test if it can get orders by multiple statuses
-    expect(orderManager.getOrders([OrderStatus.Pending, OrderStatus.Complete])).toEqual([
-      {
-        id: 1,
-        type: OrderType.Normal,
-        status: OrderStatus.Pending,
-      },
-      {
-        id: 3,
         type: OrderType.Normal,
         status: OrderStatus.Complete,
       }

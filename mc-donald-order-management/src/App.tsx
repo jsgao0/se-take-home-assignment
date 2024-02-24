@@ -34,7 +34,7 @@ function App() {
         <div className="orders-wrapper pending">
           <h2>Pending Orders</h2>
           <ol className="order-list">
-            {orderProcessor.getOrders([OrderStatus.Pending, OrderStatus.Processing])
+            {orderProcessor.getOrders(OrderStatus.Pending)
               .map((order) => {
                 const bot = orderProcessor.getProcessingBotByOrderId(order.id);
                 return (
@@ -47,7 +47,7 @@ function App() {
         <div className="orders-wrapper complete">
           <h2>Complete Orders</h2>
           <ol className="order-list">
-            {orderProcessor.getOrders([OrderStatus.Complete])
+            {orderProcessor.getOrders(OrderStatus.Complete)
               .map((order) => (
                 <li key={order.id}>
                   {`Order ${order.id}(${order.type})`}
