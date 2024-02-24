@@ -9,6 +9,8 @@ describe('OrderManager', () => {
 
   it('addOrder', () => {
     const orderManager = new OrderManager();
+
+    // add the first order
     orderManager.addOrder({
       type: OrderType.Normal,
       status: OrderStatus.Pending,
@@ -21,6 +23,7 @@ describe('OrderManager', () => {
       }
     ]);
 
+    // test if the id is incremented
     orderManager.addOrder({
       type: OrderType.Normal,
       status: OrderStatus.Pending,
@@ -46,7 +49,7 @@ describe('OrderManager', () => {
       status: OrderStatus.Pending,
     });
     orderManager.addOrder({
-      type: OrderType.Normal,
+      type: OrderType.Vip,
       status: OrderStatus.Processing,
     });
     orderManager.addOrder({
@@ -63,7 +66,7 @@ describe('OrderManager', () => {
     expect(orderManager.getOrders([OrderStatus.Processing])).toEqual([
       {
         id: 2,
-        type: OrderType.Normal,
+        type: OrderType.Vip,
         status: OrderStatus.Processing,
       }
     ]);
@@ -74,6 +77,8 @@ describe('OrderManager', () => {
         status: OrderStatus.Complete,
       }
     ]);
+
+    // test if it can get orders by multiple statuses
     expect(orderManager.getOrders([OrderStatus.Pending, OrderStatus.Complete])).toEqual([
       {
         id: 1,
