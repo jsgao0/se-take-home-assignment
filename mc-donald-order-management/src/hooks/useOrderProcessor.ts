@@ -16,7 +16,7 @@ const useOrderProcessor = () => {
   // force re-render
   const update = () => setCounter(n => n + 1);
 
-  const createOrder = async (order: Omit<Order, 'id'>) => {
+  const createOrder = (order: Omit<Order, 'id'>) => {
     orderManager.addOrder(order);
     update();
     processOrder();
