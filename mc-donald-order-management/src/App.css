@@ -1,0 +1,34 @@
+.title {
+  margin: 32px 12px;
+  padding-bottom: 4px;
+}
+
+.actions-wrapper {
+  padding: 0 12px;
+}
+
+.orders-information {
+  display: flex;
+}
+
+.orders-wrapper {
+  flex: 1;
+  margin: 12px;
+  padding: 0 12px;
+}
+
+.orders-wrapper h2 {
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+.orders-wrapper .order-list {
+  padding: 0 0 0 24px;
+}
+
+.order-list li {
+  margin-bottom: 12px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid #e0e0e0;
+}
