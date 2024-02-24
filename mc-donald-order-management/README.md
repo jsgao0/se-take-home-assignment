@@ -1,46 +1,22 @@
-# Getting Started with Create React App
+# McDonald's Order Management
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Thinking
+At first, I've read the all requirements and tried to code directly. However, it didn't work for me as 'Process Order' was asynchronous which was not straightforward.
 
-## Available Scripts
+So, I started to split the responsibilities to different entities such as:
+1. `OrderManager`: Manage the orders which can control the order index by different order types. Also provide the easy way to get orders by order status.
+2. `BotManager`: Manage the bots which can add or remove bot.
+3. `useOrderProcessor`: Manage the order process in one place with the above managers.
 
-In the project directory, you can run:
+## Worth to mention
+I tried to created `OrderProcessor` as a class instead of a hook, however, the instances of managers should be a reference instead of immutable state. Apart from that, to render as expected, I should use a force render method `update`. Therefore, I encapsulated it as a hook.
 
-### `npm start`
+Second, `processOrder` method in `useOrderProcessor` is the most important part because it assigns a pending order to an idle bot only if there are at least a pending order and a bot. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+Third, there are 4 cases that `processOrder` will be executed:
+1. Create an order: Push a pending order which should be taken by a bot.
+2. Complete an order: Complete an order and a bot becomes idle which should take a pending order.
+3. Create a bot: Push an idle bot which should take a pending order.
+4. Remove a bot: Destroy a bot and push a processing order back to pending, and the pending order should be taken by other idle bot.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
-
-### `npm test`
-
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
-
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+At last, `getProcessingBotByOrderId` is the useful way to find out if an order is being processing by any bot. I thought there was an alternative way to achieve that with an extra order status `Processing` but it's not that useful as it's just a status which is not related to the bot which takes this order.
