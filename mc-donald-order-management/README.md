@@ -20,3 +20,8 @@ Third, there are 4 cases that `processOrder` will be executed:
 4. Remove a bot: Destroy a bot and push a processing order back to pending, and the pending order should be taken by other idle bot.
 
 At last, `getProcessingBotByOrderId` is the useful way to find out if an order is being processing by any bot. I thought there was an alternative way to achieve that with an extra order status `Processing` but it's not that useful as it's just a status which is not related to the bot which takes this order.
+
+## DEMO Recording
+
+https://github.com/jsgao0/se-take-home-assignment/assets/7173395/641a7ca6-5311-4ceb-949a-57e769c7db17
+
