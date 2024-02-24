@@ -23,7 +23,10 @@ const useOrderProcessor = () => {
   }
 
   const processOrder = (processTime: number = 10000) => {
-    const pendingOrders = orderManager.getOrders(OrderStatus.Pending);
+    const pendingOrders = (() => {
+      const orders = orderManager.getOrders(OrderStatus.Pending);
+      return orders.filter(order => !botManager.bots.some(bot => bot.processingOrder?.id === order.id));
+    })();
     if (pendingOrders.length === 0) {
       return;
     }
