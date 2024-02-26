@@ -25,7 +25,7 @@ const useOrderProcessor = () => {
   const processOrder = (processTime: number = 10000) => {
     const pendingOrders = (() => {
       const orders = orderManager.getOrders(OrderStatus.Pending);
-      return orders.filter(order => !botManager.bots.some(bot => bot.processingOrder?.id === order.id));
+      return orders.filter(order => !getProcessingBotByOrderId(order.id));
     })();
     if (pendingOrders.length === 0) {
       return;
@@ -84,7 +84,7 @@ const useOrderProcessor = () => {
 
   const getProcessingBotByOrderId = (orderId: number) => {
     return botManager.bots.find(bot => bot.processingOrder?.id === orderId);
-  }
+  };
 
   return {
     createOrder,
